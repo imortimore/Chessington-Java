@@ -15,17 +15,34 @@ public class Pawn extends AbstractPiece {
 
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board){
-        ArrayList<Move> movelist = new ArrayList<>();
+        ArrayList<Move> movelist = new ArrayList<>(); 
+        //is pawn black or white
         if (this.colour == PlayerColour.WHITE){
-            Coordinates coordinateabove = new Coordinates(from.getRow()-1, from.getCol());
-            Move move = new Move(from, coordinateabove);
-            movelist.add(move);
-            return movelist;
+            if (from.getRow() == 1){
+                Coordinates whitemove1 = new Coordinates(from.getRow()+1,from.getCol());
+                Coordinates whitemove2 = new Coordinates(from.getRow()+2,from.getCol());
+                movelist.add(whitemove1);
+                movelist.add(whitemove2);
+            }else{
+                //standard -1 move for white
+                Coordinates coordinateabove = new Coordinates(from.getRow()-1, from.getCol());
+                Move whitemove1 = new Move(from, coordinateabove);
+                movelist.add(whitemove1);
+                return movelist;
+            }
         }else {
-            Coordinates coordinateabove = new Coordinates(from.getRow()+1, from.getCol());
-            Move move = new Move(from, coordinateabove);
-            movelist.add(move);
-            return movelist;
+            if (from.getRow() == 1){
+                Coordinates whitemove1 = new Coordinates(from.getRow()+1,from.getCol());
+                Coordinates whitemove2 = new Coordinates(from.getRow()+2,from.getCol());
+                movelist.add(whitemove1);
+                movelist.add(whitemove2);
+            }else{
+                //standard +1 move for black
+                Coordinates coordinateabove = new Coordinates(from.getRow()+1, from.getCol());
+                Move move = new Move(from, coordinateabove);
+                movelist.add(move);
+                return movelist;
+            }
         }
     }   
 }
