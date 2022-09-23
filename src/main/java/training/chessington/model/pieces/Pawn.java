@@ -32,15 +32,15 @@ public class Pawn extends AbstractPiece {
             }
         }else {
             if (from.getRow() == 1){
-                Coordinates whitemove1 = new Coordinates(from.getRow()+1,from.getCol());
-                Coordinates whitemove2 = new Coordinates(from.getRow()+2,from.getCol());
-                movelist.add(whitemove1);
-                movelist.add(whitemove2);
+                Coordinates blackmove1 = new Coordinates(from.getRow()+1,from.getCol());
+                Coordinates blackmove2 = new Coordinates(from.getRow()+2,from.getCol());
+                movelist.add(blackmove1);
+                movelist.add(blackmove2);
             }else{
                 //standard +1 move for black
                 Coordinates coordinateabove = new Coordinates(from.getRow()+1, from.getCol());
-                Move move = new Move(from, coordinateabove);
-                movelist.add(move);
+                Move blackmove1 = new Move(from, coordinateabove);
+                movelist.add(blackmove1);
                 return movelist;
             }
         }
