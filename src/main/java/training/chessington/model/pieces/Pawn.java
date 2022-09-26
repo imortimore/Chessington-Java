@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter.Black;
+import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter.White;
 
 public class Pawn extends AbstractPiece {
     public Pawn(PlayerColour colour) {
@@ -29,7 +30,9 @@ public class Pawn extends AbstractPiece {
         int pawnStartingRow = playerColour.equals(PlayerColour.BLACK) ? 1 : 6;
         Coordinates pawnmove1row = playerColour.equals(PlayerColour.BLACK) ? new Coordinates(from.getRow() + 1 ,from.getCol()): new Coordinates(from.getRow() - 1, from.getCol());
         Coordinates pawnmove2row = playerColour.equals(PlayerColour.BLACK) ? new Coordinates(from.getRow() + 2 ,from.getCol()): new Coordinates(from.getRow() - 2, from.getCol());
-        
+        if (isBoardEdge(from, colour)){
+            return movelist;
+        }
         if (from.getRow() == pawnStartingRow){
             if (checkPawnMoveIsClear(board, pawnmove1row)){
                 movelist.add(new Move(from, pawnmove1row));
@@ -46,6 +49,17 @@ public class Pawn extends AbstractPiece {
     }
     public boolean checkPawnMoveIsClear(Board board, Coordinates to){
         return board.get(to) == null ? true : false;
+    }
+    public boolean isBoardEdge(Coordinates from, PlayerColour colour){
+        switch(this.colour){
+            case BLACK:
+                return from.getRow() == 7 ? true : false;
+            case WHITE:
+                return from.getRow() == 0 ? true : false;
+            default:
+                return false;
+        }
+
     }
 }
        
