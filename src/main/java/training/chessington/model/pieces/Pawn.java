@@ -19,33 +19,33 @@ public class Pawn extends AbstractPiece {
         ArrayList<Move> movelist = new ArrayList<>(); 
         switch(this.colour){
             case BLACK:
-                return getPawnMovesAsPlayerColour(from, movelist, PlayerColour.BLACK);
+                return getPawnMovesAsPlayerColour(from, movelist, PlayerColour.BLACK, board);
             case WHITE:
-                return getPawnMovesAsPlayerColour(from, movelist, PlayerColour.WHITE);
+                return getPawnMovesAsPlayerColour(from, movelist, PlayerColour.WHITE, board);
             default: return movelist;
         }
     }
-    public List<Move> getPawnMovesAsPlayerColour(Coordinates from, List<Move> movelist, PlayerColour playerColour){
+    public List<Move> getPawnMovesAsPlayerColour(Coordinates from, List<Move> movelist, PlayerColour playerColour,Board board){
         int pawnStartingRow = playerColour.equals(PlayerColour.BLACK) ? 1 : 6;
-        int rowOfFirstMove = playerColour.equals(PlayerColour.BLACK) ? from.getRow() + 1 : from.getRow() - 1;
-        int rowOfSecondMove = playerColour.equals(PlayerColour.BLACK) ? from.getRow() + 2 : from.getRow() - 2;
-        if (from.getRow() == pawnStartingRow){
-            Coordinates pawnmove1 = new Coordinates(rowOfFirstMove ,from.getCol());
-            Coordinates pawnmove2 = new Coordinates(rowOfSecondMove ,from.getCol());
-            movelist.add(new Move(from, pawnmove1));
-            movelist.add(new Move(from, pawnmove2));
-        }else{ 
-       //standard +1 move for black
-            Coordinates coordinateabove = new Coordinates(from.getRow()+1, from.getCol());
-            Move pawnmove1 = new Move(from, coordinateabove);
-            movelist.add(pawnmove1);
-        }
-        return movelist;
-    }
-    public List<Move> checkForPieceInFront(Coordinates from, List<Move> moveList , PlayerColour playerColour){
+        Coordinates pawnmove1row = playerColour.equals(PlayerColour.BLACK) ? new Coordinates(from.getRow() + 1 ,from.getCol()): new Coordinates(from.getRow() - 1, from.getCol());
+        Coordinates pawnmove2row = playerColour.equals(PlayerColour.BLACK) ? new Coordinates(from.getRow() + 2 ,from.getCol()): new Coordinates(from.getRow() - 2, from.getCol());
         
-
-
+        if (from.getRow() == pawnStartingRow){
+            if (checkPawnMoveIsClear(board, pawnmove1row)){
+                movelist.add(new Move(from, pawnmove1row));
+            }
+            if (checkPawnMoveIsClear(board, pawnmove2row)){
+                movelist.add(new Move(from, pawnmove2row));
+            }
+        }else{ 
+            if (checkPawnMoveIsClear(board, pawnmove1row)){
+            movelist.add(new Move(from, pawnmove1row));
+        }
+    }
+    return movelist;
+    }
+    public boolean checkPawnMoveIsClear(Board board, Coordinates to){
+        return board.get(to) == null ? true : false;
     }
 }
        
