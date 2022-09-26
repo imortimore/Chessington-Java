@@ -73,11 +73,11 @@ public class Pawn extends AbstractPiece {
     public boolean pawnCanCaptureLeft(Board board, Coordinates to, Coordinates from,Coordinates captureLeft,PlayerColour colour){
         switch(this.colour){
             case BLACK:
-                if (board.get(to).getColour().equals(colour){
+                if (board.get(to).getColour().equals(colour.WHITE){
                     return true;
                 }
             case WHITE:
-                if (board.get(to).getColour().equals(colour){
+                if (board.get(to).getColour().equals(colour.BLACK){
                     return true;
                 }
             default:
