@@ -28,11 +28,21 @@ public class Pawn extends AbstractPiece {
     }
     public List<Move> getPawnMovesAsPlayerColour(Coordinates from, List<Move> movelist, PlayerColour playerColour,Board board){
         int pawnStartingRow = playerColour.equals(PlayerColour.BLACK) ? 1 : 6;
-        Coordinates pawnmove1row = playerColour.equals(PlayerColour.BLACK) ? new Coordinates(from.getRow() + 1 ,from.getCol()): new Coordinates(from.getRow() - 1, from.getCol());
-        Coordinates pawnmove2row = playerColour.equals(PlayerColour.BLACK) ? new Coordinates(from.getRow() + 2 ,from.getCol()): new Coordinates(from.getRow() - 2, from.getCol());
+        Coordinates pawnmove1row = playerColour.equals(PlayerColour.BLACK) ? new Coordinates(from.getRow()+1,from.getCol()): new Coordinates(from.getRow() - 1, from.getCol());
+        Coordinates pawnmove2row = playerColour.equals(PlayerColour.BLACK) ? new Coordinates(from.getRow()+2,from.getCol()): new Coordinates(from.getRow() - 2, from.getCol());
+        Coordinates captureLeft = playerColour.equals(PlayerColour.BLACK) ? new Coordinates(from.getRow()+1,from.getCol()-1): new Coordinates(from.getRow()-1,from.getCol()-1); 
+        Coordinates captureRight = playerColour.equals(PlayerColour.BLACK) ? new Coordinates(from.getRow()+1,from.getCol()+1): new Coordinates(from.getRow()-1,from.getCol()+1);
+        
         if (isBoardEdge(from, colour)){
             return movelist;
         }
+      
+
+
+
+
+
+
         if (from.getRow() == pawnStartingRow){
             if (checkPawnMoveIsClear(board, pawnmove1row)){
                 movelist.add(new Move(from, pawnmove1row));
@@ -59,7 +69,19 @@ public class Pawn extends AbstractPiece {
             default:
                 return false;
         }
-
+    }
+    public boolean pawnCanCaptureLeft(Board board, Coordinates to, Coordinates from,Coordinates captureLeft,PlayerColour colour){
+        switch(this.colour){
+            case BLACK:
+                if (board.get(to).getColour().equals(colour){
+                    return true;
+                }
+            case WHITE:
+                if (board.get(to).getColour().equals(colour){
+                    return true;
+                }
+            default:
+                return false;
     }
 }
        
