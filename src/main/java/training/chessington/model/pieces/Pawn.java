@@ -8,41 +8,45 @@ import training.chessington.model.PlayerColour;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter.Black;
+
 public class Pawn extends AbstractPiece {
     public Pawn(PlayerColour colour) {
         super(Piece.PieceType.PAWN, colour);
     }
-
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board){
         ArrayList<Move> movelist = new ArrayList<>(); 
-        //is pawn black or white
-        if (this.colour == PlayerColour.WHITE){
-            if (from.getRow() == 1){
-                Coordinates whitemove1 = new Coordinates(from.getRow()+1,from.getCol());
-                Coordinates whitemove2 = new Coordinates(from.getRow()+2,from.getCol());
-                movelist.add(whitemove1);
-                movelist.add(whitemove2);
-            }else{
-                //standard -1 move for white
-                Coordinates coordinateabove = new Coordinates(from.getRow()-1, from.getCol());
-                Move whitemove1 = new Move(from, coordinateabove);
-                movelist.add(whitemove1);
-                return movelist;
-            }
-        }else {
-            if (from.getRow() == 1){
-                Coordinates blackmove1 = new Coordinates(from.getRow()+1,from.getCol());
-                Coordinates blackmove2 = new Coordinates(from.getRow()+2,from.getCol());
-                movelist.add(blackmove1);
-                movelist.add(blackmove2);
-            }else{
-                //standard +1 move for black
-                Coordinates coordinateabove = new Coordinates(from.getRow()+1, from.getCol());
-                Move blackmove1 = new Move(from, coordinateabove);
-                movelist.add(blackmove1);
-                return movelist;
-            }
+        switch(this.colour){
+            case BLACK:
+                return getPawnMovesAsPlayerColour(from, movelist, PlayerColour.BLACK);
+            case WHITE:
+                return getPawnMovesAsPlayerColour(from, movelist, PlayerColour.WHITE);
+            default: return movelist;
         }
-    }   
+    }
+    public List<Move> getPawnMovesAsPlayerColour(Coordinates from, List<Move> movelist, PlayerColour playerColour){
+        int pawnStartingRow = playerColour.equals(PlayerColour.BLACK) ? 1 : 6;
+        int rowOfFirstMove = playerColour.equals(PlayerColour.BLACK) ? from.getRow() + 1 : from.getRow() - 1;
+        int rowOfSecondMove = playerColour.equals(PlayerColour.BLACK) ? from.getRow() + 2 : from.getRow() - 2;
+        if (from.getRow() == pawnStartingRow){
+            Coordinates pawnmove1 = new Coordinates(rowOfFirstMove ,from.getCol());
+            Coordinates pawnmove2 = new Coordinates(rowOfSecondMove ,from.getCol());
+            movelist.add(new Move(from, pawnmove1));
+            movelist.add(new Move(from, pawnmove2));
+        }else{ 
+       //standard +1 move for black
+            Coordinates coordinateabove = new Coordinates(from.getRow()+1, from.getCol());
+            Move pawnmove1 = new Move(from, coordinateabove);
+            movelist.add(pawnmove1);
+        }
+        return movelist;
+    }
+    public List<Move> checkForPieceInFront(Coordinates from, List<Move> moveList , PlayerColour playerColour){
+        
+
+
+    }
 }
+       
+
